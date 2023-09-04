@@ -1,0 +1,25 @@
+version: '3'
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-default_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-default_password}
+      POSTGRES_DB: ${POSTGRES_DB:-default_db}
+      POSTGRES_HOST: ${POSTGRES_HOST:-localhost}
+      SSL_MODE: ${SSL_MODE:-disable}
+    ports:
+      - "5433:5432"
+
+  app:
+    build: .
+    depends_on:
+      - db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-default_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-default_password}
+      POSTGRES_DB: ${POSTGRES_DB:-default_db}
+      POSTGRES_HOST: ${POSTGRES_HOST:-localhost}
+      SSL_MODE: ${SSL_MODE:-disable}
+    ports:
+      - "8080:8080"
